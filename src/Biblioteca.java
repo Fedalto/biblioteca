@@ -28,23 +28,29 @@ public class Biblioteca {
             showMenu();
             choice = getMenuChoice();
 
-            switch(choice) {
-                case "1":
-                    // View all books
-                    break;
-                case "2":
-                    // Reserve a book
-                    break;
-                case "3":
-                    // Check library number
-                    break;
-                case "q":
-                case "Q":
-                    // Quit
-                    break;
-            }
+            selectMenuOption(choice);
 
         } while (!choice.equalsIgnoreCase("q"));
+    }
+
+    public void selectMenuOption(String choice) {
+        switch(choice) {
+            case "1":
+                // View all books
+                break;
+            case "2":
+                // Reserve a book
+                break;
+            case "3":
+                // Check library number
+                break;
+            case "q":
+            case "Q":
+                // Quit
+                break;
+            default:
+                System.out.println("Select a valid option!!");
+        }
     }
 
     private String getMenuChoice() {

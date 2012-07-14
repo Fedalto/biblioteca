@@ -1,6 +1,5 @@
 import junit.framework.TestCase;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -9,7 +8,6 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class BibliotecaTest extends TestCase {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private ByteArrayInputStream in;
     Biblioteca bibl;
 
     public void setUp() throws Exception {
@@ -35,8 +33,14 @@ public class BibliotecaTest extends TestCase {
 
     // A customer should be able to select a menu option.
     public void testSelectMenuOption() throws Exception {
-        in = new ByteArrayInputStream("q".getBytes());
-        System.setIn(in);
-        bibl.mainMenu();
+        bibl.selectMenuOption("1");
+        bibl.selectMenuOption("2");
+        bibl.selectMenuOption("q");
+    }
+
+    // A customer should be notified if they do not select a valid option with “Select a valid option!!”
+    public void testInvalidOption() throws Exception {
+        bibl.selectMenuOption("invalid");
+        assertThat(out.toString(), containsString("Select a valid option"));
     }
 }
