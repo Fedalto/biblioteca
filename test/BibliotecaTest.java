@@ -43,4 +43,12 @@ public class BibliotecaTest extends TestCase {
         bibl.selectMenuOption("invalid");
         assertThat(out.toString(), containsString("Select a valid option"));
     }
+
+    // A customer should be able to view all books the library has.
+    public void testShowAllBooks() throws Exception {
+        Book book = new Book("Alice in Wonderland", "Lewis Carroll");
+        bibl.addBook(book);
+        bibl.showAllBooks();
+        assertThat(out.toString(), containsString("Alice in Wonderland by Lewis Carroll"));
+    }
 }
