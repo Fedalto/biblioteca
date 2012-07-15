@@ -61,11 +61,14 @@ public class Library {
             case "2":
                 // Reserve a book
                 System.out.print("Which book would you like to reserve? ");
-                int bookNumber = getBookNumber();
+                int bookNumber = getNumberInput();
                 reserveBook(bookNumber);
                 break;
             case "3":
                 // Check library number
+                System.out.print("Enter your library number: ");
+                int libraryNumber = getNumberInput();
+                checkLibraryNumber(libraryNumber);
                 break;
             case "q":
                 // Quit
@@ -97,7 +100,7 @@ public class Library {
         return in.next().toLowerCase();
     }
 
-    private int getBookNumber() {
+    private int getNumberInput() {
         Scanner in = new Scanner(System.in);
         return in.nextInt();
     }
