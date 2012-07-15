@@ -55,11 +55,14 @@ public class Library {
     public void selectMenuOption(String choice) {
         switch(choice) {
             case "1":
+                // List all books the library has
                 showAllBooks();
                 break;
             case "2":
                 // Reserve a book
-
+                System.out.print("Which book would you like to reserve? ");
+                int bookNumber = getBookNumber();
+                reserveBook(bookNumber);
                 break;
             case "3":
                 // Check library number
@@ -72,9 +75,31 @@ public class Library {
         }
     }
 
+    public void reserveBook(int bookNumber) {
+        Book book = null;
+
+        if (bookNumber <= 0 || bookNumber > books.size()) {
+            System.out.println("Book number not found.");
+            return;
+        }
+
+        book = books.get(bookNumber-1);
+        if (book.isAvailable()) {
+            book.setAvailable(false);
+            System.out.println("Thank You! Enjoy the book.");
+        } else {
+            System.out.println("Sorry we don't have that book yet.");
+        }
+    }
+
     private String getMenuChoice() {
         Scanner in = new Scanner(System.in);
         return in.next().toLowerCase();
+    }
+
+    private int getBookNumber() {
+        Scanner in = new Scanner(System.in);
+        return in.nextInt();
     }
 
     public void showAllBooks() {
@@ -83,5 +108,9 @@ public class Library {
             System.out.println(index + ") " + book.getTitle() + " by " + book.getAuthor());
             index++;
         }
+    }
+
+    public void checkLibraryNumber(int libraryNumber) {
+        System.out.println("Please talk to Librarian. Thank you");
     }
 }

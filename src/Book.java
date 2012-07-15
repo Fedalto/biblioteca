@@ -1,6 +1,7 @@
 public class Book {
     private String title;
     private String author;
+    private boolean available = true;
 
     public Book(String title, String author) {
         this.title = title;
@@ -21,5 +22,13 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

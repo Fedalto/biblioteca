@@ -13,6 +13,8 @@ public class LibraryTest extends TestCase {
     public void setUp() throws Exception {
         System.setOut(new PrintStream(out));
         lib = new Library();
+        Book book = new Book("Alice in Wonderland", "Lewis Carroll");
+        lib.addBook(book);
     }
 
     public void tearDown() throws Exception {
@@ -34,7 +36,7 @@ public class LibraryTest extends TestCase {
     // A customer should be able to select a menu option.
     public void testSelectMenuOption() throws Exception {
         lib.selectMenuOption("1");
-        lib.selectMenuOption("2");
+        lib.selectMenuOption("3");
         lib.selectMenuOption("Q");
     }
 
@@ -46,9 +48,27 @@ public class LibraryTest extends TestCase {
 
     // A customer should be able to view all books the library has.
     public void testShowAllBooks() throws Exception {
-        Book book = new Book("Alice in Wonderland", "Lewis Carroll");
-        lib.addBook(book);
         lib.showAllBooks();
         assertThat(out.toString(), containsString("Alice in Wonderland by Lewis Carroll"));
+    }
+
+    // A customer should be able to reserve a book for collection.
+    // A customer should be notified if their selected book was reserved successfully with “Thank You! Enjoy the book.”
+    public void testReserveBook() throws Exception {
+        lib.reserveBook(1);
+        assertThat(out.toString(), containsString("Thank You! Enjoy the book"));
+    }
+
+    // A customer should be notified if their selected book is not available with “Sorry we don't have that book yet.”
+    public void testReserveBookNotAvailable() throws Exception {
+        lib.reserveBook(1);
+        lib.reserveBook(1);
+        assertThat(out.toString(), containsString("Sorry we don't have that book yet"));
+    }
+
+    // A customer should be able to check their library number and be notified with “Please talk to Librarian. Thank you.”
+    public void testCheckLibraryNumber() throws Exception {
+        lib.checkLibraryNumber(1234);
+        assertThat(out.toString(), containsString("Please talk to Librarian. Thank you"));
     }
 }
