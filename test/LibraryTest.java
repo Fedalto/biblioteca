@@ -6,13 +6,13 @@ import java.io.PrintStream;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
-public class BibliotecaTest extends TestCase {
+public class LibraryTest extends TestCase {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    Biblioteca bibl;
+    Library lib;
 
     public void setUp() throws Exception {
         System.setOut(new PrintStream(out));
-        bibl = new Biblioteca();
+        lib = new Library();
     }
 
     public void tearDown() throws Exception {
@@ -21,34 +21,34 @@ public class BibliotecaTest extends TestCase {
 
     // The customer should see a welcome when they start the application.
     public void testWelcomeScreen() throws Exception {
-        bibl.welcomeScreen();
-        assertThat(out.toString(), containsString("Welcome to the Bangalore Public Library System"));
+        lib.welcomeScreen();
+        assertThat(out.toString(), containsString("Welcome"));
     }
 
     // A customer should have a list of menu options at the start of the application.
     public void testShowMenu() throws Exception {
-        bibl.showMenu();
+        lib.showMenu();
         assertThat(out.toString(), containsString("Menu"));
     }
 
     // A customer should be able to select a menu option.
     public void testSelectMenuOption() throws Exception {
-        bibl.selectMenuOption("1");
-        bibl.selectMenuOption("2");
-        bibl.selectMenuOption("q");
+        lib.selectMenuOption("1");
+        lib.selectMenuOption("2");
+        lib.selectMenuOption("Q");
     }
 
     // A customer should be notified if they do not select a valid option with “Select a valid option!!”
     public void testInvalidOption() throws Exception {
-        bibl.selectMenuOption("invalid");
+        lib.selectMenuOption("invalid");
         assertThat(out.toString(), containsString("Select a valid option"));
     }
 
     // A customer should be able to view all books the library has.
     public void testShowAllBooks() throws Exception {
         Book book = new Book("Alice in Wonderland", "Lewis Carroll");
-        bibl.addBook(book);
-        bibl.showAllBooks();
+        lib.addBook(book);
+        lib.showAllBooks();
         assertThat(out.toString(), containsString("Alice in Wonderland by Lewis Carroll"));
     }
 }
