@@ -1,72 +1,89 @@
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
-public class LibraryTest extends TestCase {
+public class LibraryTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     Library lib;
 
+    @Before
     public void setUp() throws Exception {
         System.setOut(new PrintStream(out));
         lib = new Library();
+
         Book book = new Book("Alice in Wonderland", "Lewis Carroll");
         lib.addBook(book);
     }
 
+    @After
     public void tearDown() throws Exception {
         System.setOut(null);
     }
 
-    // The customer should see a welcome when they start the application.
+    @Test
     public void testWelcomeScreen() throws Exception {
         lib.welcomeScreen();
         assertThat(out.toString(), containsString("Welcome"));
     }
 
-    // A customer should have a list of menu options at the start of the application.
+    @Test
     public void testShowMenu() throws Exception {
         lib.showMenu();
         assertThat(out.toString(), containsString("Menu"));
     }
 
-    // A customer should be able to select a menu option.
+    @Test
     public void testSelectMenuOption() throws Exception {
         lib.selectMenuOption("1");
-        lib.selectMenuOption("3");
         lib.selectMenuOption("Q");
     }
 
-    // A customer should be notified if they do not select a valid option with “Select a valid option!!”
-    public void testInvalidOption() throws Exception {
+    @Test
+    public void testSelectInvalidMenuOption() throws Exception {
         lib.selectMenuOption("invalid");
         assertThat(out.toString(), containsString("Select a valid option"));
     }
 
-    // A customer should be able to view all books the library has.
+    @Test
     public void testShowAllBooks() throws Exception {
         lib.showAllBooks();
         assertThat(out.toString(), containsString("Alice in Wonderland by Lewis Carroll"));
     }
 
-    // A customer should be able to reserve a book for collection.
-    // A customer should be notified if their selected book was reserved successfully with “Thank You! Enjoy the book.”
+    @Test
     public void testReserveBook() throws Exception {
+        Book book = lib.getBook(1);
+
+        assertEquals(true, book.isAvailable());
+
         lib.reserveBook(1);
+
+        assertEquals(false, book.isAvailable());
         assertThat(out.toString(), containsString("Thank You! Enjoy the book"));
     }
 
-    // A customer should be notified if their selected book is not available with “Sorry we don't have that book yet.”
+    @Test
     public void testReserveBookNotAvailable() throws Exception {
+        Book book = lib.getBook(1);
+        assertEquals(true, book.isAvailable());
+
         lib.reserveBook(1);
+        assertEquals(false, book.isAvailable());
+
         lib.reserveBook(1);
+
+        assertEquals(false, book.isAvailable());
         assertThat(out.toString(), containsString("Sorry we don't have that book yet"));
     }
 
-    // A customer should be able to check their library number and be notified with “Please talk to Librarian. Thank you.”
+    @Test
     public void testCheckLibraryNumber() throws Exception {
         lib.checkLibraryNumber(1234);
         assertThat(out.toString(), containsString("Please talk to Librarian. Thank you"));

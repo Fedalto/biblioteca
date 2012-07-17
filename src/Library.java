@@ -24,6 +24,10 @@ public class Library {
         books.add(book);
     }
 
+    public Book getBook(int index) {
+        return books.get(index-1);
+    }
+
     public void welcomeScreen() {
         System.out.println("============================");
         System.out.println("=     Welcome to the       =");
@@ -86,7 +90,7 @@ public class Library {
             return;
         }
 
-        book = books.get(bookNumber-1);
+        book = getBook(bookNumber);
         if (book.isAvailable()) {
             book.setAvailable(false);
             System.out.println("Thank You! Enjoy the book.");
