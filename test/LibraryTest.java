@@ -20,6 +20,7 @@ public class LibraryTest {
 
         Book book = new Book("Alice in Wonderland", "Lewis Carroll");
         lib.addBook(book);
+        lib.addMovie(new Movie("The Godfather", "Francis Ford Coppola"));
     }
 
     @After
@@ -87,5 +88,12 @@ public class LibraryTest {
     public void testCheckLibraryNumber() throws Exception {
         lib.checkLibraryNumber(1234);
         assertThat(out.toString(), containsString("Please talk to Librarian. Thank you"));
+    }
+
+    @Test
+    public void showAllMovies() {
+        lib.showAllMovies();
+        assertThat(out.toString(), containsString("The Godfather"));
+        assertThat(out.toString(), containsString("Francis Ford Coppola"));
     }
 }

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Library {
     private ArrayList<Book> books = new ArrayList<Book>();
+    private ArrayList<Movie> movies = new ArrayList<Movie>();
 
     public void start() {
         setup();
@@ -18,10 +19,19 @@ public class Library {
         addBook(book1);
         addBook(book2);
         addBook(book3);
+
+        addMovie(new Movie("The Godfather", "Francis Ford Coppola", 10));
+        addMovie(new Movie("Fight Club", "David Fincher"));
+        addMovie(new Movie("Star Wars", "George Lucas", 9));
+        addMovie(new Movie("Shrek", "Andrew Adamson", 0));
     }
 
     public void addBook(Book book) {
         books.add(book);
+    }
+
+    public void addMovie(Movie movie) {
+        movies.add(movie);
     }
 
     public Book getBook(int index) {
@@ -41,6 +51,7 @@ public class Library {
         System.out.println("1) View all books");
         System.out.println("2) Reserve a book");
         System.out.println("3) Check library number");
+        System.out.println("4) View all movies");
         System.out.println("Q) Quit");
         System.out.print("Select an option: ");
     }
@@ -73,6 +84,9 @@ public class Library {
                 System.out.print("Enter your library number: ");
                 int libraryNumber = getNumberInput();
                 checkLibraryNumber(libraryNumber);
+                break;
+            case "4":
+                showAllMovies();
                 break;
             case "q":
                 // Quit
@@ -113,6 +127,19 @@ public class Library {
         int index = 1;
         for (Book book : books) {
             System.out.println(index + ") " + book.getTitle() + " by " + book.getAuthor());
+            index++;
+        }
+    }
+
+    public void showAllMovies() {
+        System.out.println("    Movie Name | Director | Rating");
+        int index = 1;
+        for (Movie movie : movies) {
+            System.out.print(index + ") " + movie.getTitle() + " | " + movie.getDirector() + " | ");
+            if (movie.getRating() < 1)
+                System.out.println("N/A");
+            else
+                System.out.println(movie.getRating());
             index++;
         }
     }
