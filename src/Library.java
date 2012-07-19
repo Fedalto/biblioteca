@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Library {
     private ArrayList<Book> books = new ArrayList<Book>();
     private ArrayList<Movie> movies = new ArrayList<Movie>();
+    private ArrayList<User> users = new ArrayList<User>();
 
     public void start() {
         setup();
@@ -24,6 +25,11 @@ public class Library {
         addMovie(new Movie("Fight Club", "David Fincher"));
         addMovie(new Movie("Star Wars", "George Lucas", 9));
         addMovie(new Movie("Shrek", "Andrew Adamson", 0));
+
+        users.add(new User("librarian", "1234"));
+        users.add(new User("steve", "12345"));
+        users.add(new User("michael", "123456"));
+
     }
 
     public void addBook(Book book) {
