@@ -2,9 +2,9 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Library {
-    private ArrayList<Book> books = new ArrayList<Book>();
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
-    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<Book> books = new ArrayList<>();
+    private ArrayList<Movie> movies = new ArrayList<>();
+    private User currentUser;
 
     public void start() {
         setup();
@@ -26,10 +26,9 @@ public class Library {
         addMovie(new Movie("Star Wars", "George Lucas", 9));
         addMovie(new Movie("Shrek", "Andrew Adamson", 0));
 
-        users.add(new User("librarian", "1234"));
-        users.add(new User("steve", "12345"));
-        users.add(new User("michael", "123456"));
-
+        new User("librarian", "1234");
+        new User("steve", "12345");
+        new User("michael", "123456");
     }
 
     public void addBook(Book book) {
@@ -43,6 +42,11 @@ public class Library {
     public Book getBook(int index) {
         return books.get(index-1);
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
 
     public void welcomeScreen() {
         System.out.println("============================");
@@ -58,6 +62,10 @@ public class Library {
         System.out.println("2) Reserve a book");
         System.out.println("3) Check library number");
         System.out.println("4) View all movies");
+        if (UserLoggedIn())
+            System.out.println("L) Logout");
+        else
+            System.out.println("L) Login");
         System.out.println("Q) Quit");
         System.out.print("Select an option: ");
     }
@@ -76,23 +84,34 @@ public class Library {
     public void selectMenuOption(String choice) {
         switch(choice) {
             case "1":
-                // List all books the library has
                 showAllBooks();
                 break;
             case "2":
-                // Reserve a book
                 System.out.print("Which book would you like to reserve? ");
                 int bookNumber = getNumberInput();
                 reserveBook(bookNumber);
                 break;
             case "3":
-                // Check library number
                 System.out.print("Enter your library number: ");
                 int libraryNumber = getNumberInput();
                 checkLibraryNumber(libraryNumber);
                 break;
             case "4":
                 showAllMovies();
+                break;
+            case "l":
+                if (UserLoggedIn())
+                    logout();
+                else {
+                    Scanner in = new Scanner(System.in);
+                    System.out.print("Username: ");
+                    String username = in.nextLine();
+
+                    System.out.print("Password: ");
+                    String password = in.nextLine();
+
+                    login(username, password);
+                }
                 break;
             case "q":
                 // Quit
@@ -103,7 +122,7 @@ public class Library {
     }
 
     public void reserveBook(int bookNumber) {
-        Book book = null;
+        Book book;
 
         if (bookNumber <= 0 || bookNumber > books.size()) {
             System.out.println("Book number not found.");
@@ -152,5 +171,19 @@ public class Library {
 
     public void checkLibraryNumber(int libraryNumber) {
         System.out.println("Please talk to Librarian. Thank you");
+    }
+
+    public void login(String username, String password) {
+        currentUser = User.authenticate(username, password);
+        if (!UserLoggedIn())
+            System.out.println("Error: Invalid username/password");
+    }
+
+    public void logout() {
+        currentUser = null;
+    }
+
+    private boolean UserLoggedIn() {
+        return !(currentUser == null);
     }
 }

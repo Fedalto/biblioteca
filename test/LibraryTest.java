@@ -26,6 +26,7 @@ public class LibraryTest {
     @After
     public void tearDown() throws Exception {
         System.setOut(null);
+        User.cleanUp();
     }
 
     @Test
@@ -95,5 +96,30 @@ public class LibraryTest {
         lib.showAllMovies();
         assertThat(out.toString(), containsString("The Godfather"));
         assertThat(out.toString(), containsString("Francis Ford Coppola"));
+    }
+
+    @Test
+    public void login() {
+        User steve = new User("steve", "12345");
+
+        lib.login("steve", "12345");
+        assert steve == lib.getCurrentUser();
+    }
+
+    @Test
+    public void loginWithInvalidCredentials() {
+        User steve = new User("steve", "12345");
+
+        lib.login("steve", "wrong pass");
+        assertEquals(null, lib.getCurrentUser());
+        assertThat(out.toString(), containsString("Invalid username/password"));
+    }
+
+    @Test
+    public void logout() {
+        User steve = new User("steve", "12345");
+        lib.login("steve", "12345");
+        lib.logout();
+        assertEquals(null, lib.getCurrentUser());
     }
 }
