@@ -92,9 +92,7 @@ public class Library {
                 reserveBook(bookNumber);
                 break;
             case "3":
-                System.out.print("Enter your library number: ");
-                int libraryNumber = getNumberInput();
-                checkLibraryNumber(libraryNumber);
+                checkLibraryNumber();
                 break;
             case "4":
                 showAllMovies();
@@ -169,8 +167,11 @@ public class Library {
         }
     }
 
-    public void checkLibraryNumber(int libraryNumber) {
-        System.out.println("Please talk to Librarian. Thank you");
+    public void checkLibraryNumber() {
+        if (UserLoggedIn())
+            System.out.println("Your library number is " + getCurrentUser().getLibraryNumber());
+        else
+            System.out.println("Please talk to Librarian. Thank you");
     }
 
     public void login(String username, String password) {
@@ -184,6 +185,6 @@ public class Library {
     }
 
     private boolean UserLoggedIn() {
-        return !(currentUser == null);
+        return !(getCurrentUser() == null);
     }
 }

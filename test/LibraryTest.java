@@ -86,9 +86,17 @@ public class LibraryTest {
     }
 
     @Test
-    public void testCheckLibraryNumber() throws Exception {
-        lib.checkLibraryNumber(1234);
+    public void CheckLibraryNumber() {
+        lib.checkLibraryNumber();
         assertThat(out.toString(), containsString("Please talk to Librarian. Thank you"));
+    }
+
+    @Test
+    public void checkLibraryNumberWhileLoggedIn() {
+        User steve = new User("steve", "12345");
+        lib.login("steve", "12345");
+        lib.checkLibraryNumber();
+        assertThat(out.toString(), containsString(steve.getLibraryNumber()));
     }
 
     @Test
